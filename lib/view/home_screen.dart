@@ -18,15 +18,19 @@ class HomeScreen extends StatelessWidget {
             ),
             Container(
               height: height * 0.8,
-              color: Colors.red,
               child: ListView.builder(
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.all(10),
-                    child: Container(
-                      height: height * 0.1,
-                      color: Colors.white10,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/detail');
+                      },
+                      child: Container(
+                        height: height * 0.1,
+                        color: Colors.black38,
+                      ),
                     ),
                   );
                 },
@@ -39,7 +43,9 @@ class HomeScreen extends StatelessWidget {
         width: width * 0.9,
         height: height * 0.058,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/addTask');
+          },
           style: ElevatedButton.styleFrom(
               primary: const Color(0xFF302D52),
               shape: RoundedRectangleBorder(

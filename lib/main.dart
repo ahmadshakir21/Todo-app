@@ -16,8 +16,16 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      routes: {
+        '/addTask': (context) => const AddTask(),
+        '/detail': (context) => const DetailTask(),
+        '/edit': (context) => const UpdateTask(),
+        '/done': (context) => const HomeScreen(),
+        '/delete': (context) => const HomeScreen(),
+        '/update': (context) => const HomeScreen(),
+      },
       theme: ThemeData(
-          fontFamily: GoogleFonts.inder().fontFamily,
+          fontFamily: GoogleFonts.inter().fontFamily,
           textTheme: const TextTheme(
               headline1: TextStyle(
                 fontSize: 25,
@@ -30,7 +38,7 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
                   color: Color(0xFFFDDEA5)))),
-      home: const AddTask(),
+      home: const HomeScreen(),
     );
   }
 }

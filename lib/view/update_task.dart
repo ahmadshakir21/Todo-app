@@ -33,10 +33,13 @@ class UpdateTask extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
                   child: Row(
                     children: [
-                      const Icon(
-                        Icons.arrow_back_rounded,
-                        size: 30,
-                        color: Color(0xFF302D52),
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.arrow_back_rounded,
+                          size: 30,
+                          color: Color(0xFF302D52),
+                        ),
                       ),
                       SizedBox(
                         width: width * 0.2,
@@ -79,7 +82,9 @@ class UpdateTask extends StatelessWidget {
           width: width * 0.9,
           height: height * 0.058,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/update');
+            },
             style: ElevatedButton.styleFrom(
                 primary: const Color(0xFF04809C),
                 shape: RoundedRectangleBorder(
