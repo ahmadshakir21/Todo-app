@@ -35,28 +35,33 @@ class HomeScreen extends StatelessWidget {
                   );
                 },
               ),
-            )
+            ),
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Container(
+              width: width * 0.9,
+              height: height * 0.058,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/addTask');
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFF302D52),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9))),
+                child: Text(
+                  "ADD TASK",
+                  style: Theme.of(context).textTheme.button,
+                ),
+              ),
+            ),
+            SizedBox(
+              height: height * 0.02,
+            ),
           ],
         ),
       ),
-      floatingActionButton: Container(
-        width: width * 0.9,
-        height: height * 0.058,
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/addTask');
-          },
-          style: ElevatedButton.styleFrom(
-              primary: const Color(0xFF302D52),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(9))),
-          child: Text(
-            "ADD TASK",
-            style: Theme.of(context).textTheme.button,
-          ),
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     ));
   }
 }

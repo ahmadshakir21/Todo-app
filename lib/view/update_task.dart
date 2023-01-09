@@ -1,7 +1,24 @@
 import 'package:flutter/material.dart';
 
-class UpdateTask extends StatelessWidget {
+class UpdateTask extends StatefulWidget {
   const UpdateTask({Key? key}) : super(key: key);
+
+  @override
+  State<UpdateTask> createState() => _UpdateTaskState();
+}
+
+class _UpdateTaskState extends State<UpdateTask> {
+  final TextEditingController taskTitleController = TextEditingController();
+  final TextEditingController taskDiscriptionController =
+      TextEditingController();
+
+  @override
+  void dispose() {
+    taskTitleController.dispose();
+    taskDiscriptionController.dispose();
+    super.dispose();
+  }
+
   OutlineInputBorder myInputBorder() {
     return const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -34,7 +51,9 @@ class UpdateTask extends StatelessWidget {
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
                         icon: const Icon(
                           Icons.arrow_back_rounded,
                           size: 30,
@@ -58,44 +77,54 @@ class UpdateTask extends StatelessWidget {
               Container(
                   width: width * 0.9,
                   child: TextField(
+                      controller: taskTitleController,
+                      maxLength: 30,
                       decoration: InputDecoration(
-                    border: myInputBorder(),
-                    enabledBorder: myInputBorder(),
-                    focusedBorder: myFocusBorder(),
-                  ))),
+                        hintText: "Title",
+                        border: myInputBorder(),
+                        enabledBorder: myInputBorder(),
+                        focusedBorder: myFocusBorder(),
+                      ))),
               SizedBox(
                 height: height * 0.05,
               ),
               Container(
                   width: width * 0.9,
                   child: TextField(
+                      controller: taskDiscriptionController,
                       maxLines: 12,
                       decoration: InputDecoration(
+                        hintText: "Discription",
                         border: myInputBorder(),
                         enabledBorder: myInputBorder(),
                         focusedBorder: myFocusBorder(),
                       ))),
+              SizedBox(
+                height: height * 0.15,
+              ),
+              Container(
+                width: width * 0.9,
+                height: height * 0.058,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/update');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF04809C),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(9))),
+                  child: Text(
+                    "UPDATE",
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
             ],
           ),
         ),
-        floatingActionButton: Container(
-          width: width * 0.9,
-          height: height * 0.058,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/update');
-            },
-            style: ElevatedButton.styleFrom(
-                primary: const Color(0xFF04809C),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(9))),
-            child: Text(
-              "UPDATE",
-              style: Theme.of(context).textTheme.button,
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

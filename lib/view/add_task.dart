@@ -11,6 +11,31 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
+  final TextEditingController taskTitleController = TextEditingController();
+  final TextEditingController taskDiscriptionController =
+      TextEditingController();
+
+  List colors = [
+    const Color(0xFFFFB4B4),
+    const Color(0xFFBBDFC7),
+    const Color(0xFFB9A7DA),
+    const Color(0xFFFFDFA5)
+  ];
+  Random random = Random();
+  int indexColor = 0;
+  void changeIndexColor() {
+    setState(() {
+      indexColor = random.nextInt(4);
+    });
+  }
+
+  @override
+  void dispose() {
+    taskTitleController.dispose();
+    taskDiscriptionController.dispose();
+    super.dispose();
+  }
+
   OutlineInputBorder myInputBorder() {
     return const OutlineInputBorder(
         borderRadius: BorderRadius.all(Radius.circular(7)),
@@ -30,19 +55,6 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-    List colors = [
-      const Color(0xFFFFB4B4),
-      const Color(0xFFBBDFC7),
-      const Color(0xFFB9A7DA),
-      const Color(0xFFFFDFA5)
-    ];
-    Random random = Random();
-    int indexColor = 0;
-    void changeIndexColor() {
-      setState(() {
-        indexColor = random.nextInt(4);
-      });
-    }
 
     return SafeArea(
       child: Scaffold(
@@ -84,19 +96,24 @@ class _AddTaskState extends State<AddTask> {
               Container(
                   width: width * 0.9,
                   child: TextField(
+                      controller: taskTitleController,
+                      maxLength: 30,
                       decoration: InputDecoration(
-                    border: myInputBorder(),
-                    enabledBorder: myInputBorder(),
-                    focusedBorder: myFocusBorder(),
-                  ))),
+                        hintText: "Title",
+                        border: myInputBorder(),
+                        enabledBorder: myInputBorder(),
+                        focusedBorder: myFocusBorder(),
+                      ))),
               SizedBox(
                 height: height * 0.05,
               ),
               Container(
                   width: width * 0.9,
                   child: TextField(
+                      controller: taskDiscriptionController,
                       maxLines: 12,
                       decoration: InputDecoration(
+                        hintText: "Discription",
                         border: myInputBorder(),
                         enabledBorder: myInputBorder(),
                         focusedBorder: myFocusBorder(),
@@ -120,28 +137,33 @@ class _AddTaskState extends State<AddTask> {
               //     ],
               //   ),
               // ),
+              SizedBox(
+                height: height * 0.15,
+              ),
+              Container(
+                width: width * 0.9,
+                height: height * 0.058,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // changeIndexColor();
+                    Navigator.pushNamed(context, '/done');
+                  },
+                  style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFF302D52),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(9))),
+                  child: Text(
+                    "DONE",
+                    style: Theme.of(context).textTheme.button,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
             ],
           ),
         ),
-        floatingActionButton: Container(
-          width: width * 0.9,
-          height: height * 0.058,
-          child: ElevatedButton(
-            onPressed: () {
-              // changeIndexColor();
-              Navigator.pushNamed(context, '/done');
-            },
-            style: ElevatedButton.styleFrom(
-                primary: const Color(0xFF302D52),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(9))),
-            child: Text(
-              "DONE",
-              style: Theme.of(context).textTheme.button,
-            ),
-          ),
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
