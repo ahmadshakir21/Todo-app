@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/model/todo_model.dart';
+import 'package:todo_app/service/database_service.dart';
+import 'package:todo_app/widget/container_color.dart';
 
 class DetailTask extends StatelessWidget {
   const DetailTask({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    final titleArgs = routeArgs['title'].toString();
+    final descriptionArgs = routeArgs['description'].toString();
+    final timeArgs = routeArgs['time'].toString();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -12,6 +20,7 @@ class DetailTask extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(10),
           child: ListView(
+            shrinkWrap: true,
             children: [
               Center(
                 child: Padding(
@@ -39,7 +48,28 @@ class DetailTask extends StatelessWidget {
                     ],
                   ),
                 ),
-              )
+              ),
+              SizedBox(
+                height: height * 0.04,
+              ),
+              Text(
+                titleArgs,
+                style: Theme.of(context).textTheme.headline2,
+              ),
+              SizedBox(
+                height: height * 0.01,
+              ),
+              Text(
+                timeArgs,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              Text(
+                descriptionArgs,
+                style: Theme.of(context).textTheme.headline3,
+              ),
             ],
           ),
         ),

@@ -71,16 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                   time: DateFormat.yMMMd().format(t.time),
                                   color: colors[indexColor],
                                   onTap: () {
-                                    Navigator.pushNamed(context, '/detail');
+                                    Navigator.pushNamed(context, '/detail',
+                                        arguments: {
+                                          'title': t.title,
+                                          'description': t.description,
+                                          'time': DateFormat.yMMMMEEEEd()
+                                              .format(t.time),
+                                        });
                                   }))
                               .toList());
-                  // Card(
-                  //       child: ListTile(
-                  //         title: Text(t.title),
-                  //         subtitle: Text(t.description),
-                  //       ),
-                  //     ))
-                  // .toList());
                 },
               ),
             ),
