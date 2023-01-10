@@ -1,7 +1,35 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-class HomeScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:todo_app/model/todo_model.dart';
+import 'package:todo_app/service/database_service.dart';
+import 'package:todo_app/widget/container_color.dart';
+
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List colors = [
+    const Color(0xFFFFB4B4),
+    const Color(0xFFBBDFC7),
+    const Color(0xFFB9A7DA),
+    const Color(0xFFFFDFA5)
+  ];
+
+  Random random = Random();
+
+  int indexColor = 0;
+
+  void changeIndexColor() {
+    setState(() {
+      indexColor = random.nextInt(colors.length);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,26 +46,46 @@ class HomeScreen extends StatelessWidget {
             ),
             Container(
               height: height * 0.8,
-              child: ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, '/detail');
-                      },
-                      child: Container(
-                        height: height * 0.1,
-                        color: Colors.black38,
+              child: FutureBuilder<List<TodoModel>>(
+                future: DatabaseService.instance.getTodo(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<List<TodoModel>> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: Text(
+                        "No Data",
+                        style: Theme.of(context).textTheme.headline3,
                       ),
-                    ),
-                  );
+                    );
+                  }
+                  return snapshot.data!.isEmpty
+                      ? const Center(
+                          //TODO: change this text to image
+                          child: Text("No Todo in List"),
+                        )
+                      : ListView(
+                          children: snapshot.data!
+                              .map((t) => ContainerColor(
+                                  title: t.title,
+                                  description: t.description,
+                                  time: DateFormat.yMMMd().format(t.time),
+                                  color: colors[indexColor],
+                                  onTap: () {
+                                    Navigator.pushNamed(context, '/detail');
+                                  }))
+                              .toList());
+                  // Card(
+                  //       child: ListTile(
+                  //         title: Text(t.title),
+                  //         subtitle: Text(t.description),
+                  //       ),
+                  //     ))
+                  // .toList());
                 },
               ),
             ),
             SizedBox(
-              height: height * 0.02,
+              height: height * 0.01,
             ),
             Container(
               width: width * 0.9,
@@ -57,7 +105,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             SizedBox(
-              height: height * 0.02,
+              height: height * 0.01,
             ),
           ],
         ),

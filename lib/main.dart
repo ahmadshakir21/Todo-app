@@ -33,6 +33,18 @@ class MyApp extends StatelessWidget {
                 letterSpacing: 1,
                 color: Color(0xFF302D52),
               ),
+              headline2: TextStyle(
+                  fontSize: 20,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF302D52)),
+              headline3: TextStyle(
+                  fontSize: 16,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF302D52)),
+              headline6: TextStyle(
+                  fontSize: 14, letterSpacing: 1, color: Color(0xFF767676)),
               button: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,

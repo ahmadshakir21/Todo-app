@@ -1,7 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:todo_app/widget/container_color.dart';
+import 'package:todo_app/model/todo_model.dart';
+import 'package:todo_app/service/database_service.dart';
 
 class AddTask extends StatefulWidget {
   const AddTask({Key? key}) : super(key: key);
@@ -15,25 +14,18 @@ class _AddTaskState extends State<AddTask> {
   final TextEditingController taskDiscriptionController =
       TextEditingController();
 
-  List colors = [
-    const Color(0xFFFFB4B4),
-    const Color(0xFFBBDFC7),
-    const Color(0xFFB9A7DA),
-    const Color(0xFFFFDFA5)
-  ];
-  Random random = Random();
-  int indexColor = 0;
-  void changeIndexColor() {
-    setState(() {
-      indexColor = random.nextInt(4);
-    });
-  }
-
   @override
   void dispose() {
     taskTitleController.dispose();
     taskDiscriptionController.dispose();
     super.dispose();
+  }
+
+  Future insert() async {
+    await DatabaseService.instance.insertTodo(TodoModel(
+        title: taskTitleController.text.trim(),
+        description: taskDiscriptionController.text.trim(),
+        time: DateTime.now()));
   }
 
   OutlineInputBorder myInputBorder() {
@@ -97,7 +89,7 @@ class _AddTaskState extends State<AddTask> {
                   width: width * 0.9,
                   child: TextField(
                       controller: taskTitleController,
-                      maxLength: 30,
+                      // maxLength: 25,
                       decoration: InputDecoration(
                         hintText: "Title",
                         border: myInputBorder(),
@@ -113,30 +105,11 @@ class _AddTaskState extends State<AddTask> {
                       controller: taskDiscriptionController,
                       maxLines: 12,
                       decoration: InputDecoration(
-                        hintText: "Discription",
+                        hintText: "Description",
                         border: myInputBorder(),
                         enabledBorder: myInputBorder(),
                         focusedBorder: myFocusBorder(),
                       ))),
-              // SizedBox(
-              //   height: height * 0.04,
-              // ),
-              // Container(
-              //   height: height * 0.1,
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //     children: [
-              //       ContainerColor(
-              //           color: const Color(0xFFFFB4B4), onTap: () {}),
-              //       ContainerColor(
-              //           color: const Color(0xFFBBDFC7), onTap: () {}),
-              //       ContainerColor(
-              //           color: const Color(0xFFB9A7DA), onTap: () {}),
-              //       ContainerColor(
-              //           color: const Color(0xFFFFDFA5), onTap: () {}),
-              //     ],
-              //   ),
-              // ),
               SizedBox(
                 height: height * 0.15,
               ),
@@ -144,9 +117,12 @@ class _AddTaskState extends State<AddTask> {
                 width: width * 0.9,
                 height: height * 0.058,
                 child: ElevatedButton(
-                  onPressed: () {
-                    // changeIndexColor();
-                    Navigator.pushNamed(context, '/done');
+                  onPressed: () async {
+                    await DatabaseService.instance.insertTodo(TodoModel(
+                        title: taskTitleController.text.trim(),
+                        description: taskDiscriptionController.text.trim(),
+                        time: DateTime.now()));
+                    // Navigator.pushNamed(context, '/done');
                   },
                   style: ElevatedButton.styleFrom(
                       primary: const Color(0xFF302D52),

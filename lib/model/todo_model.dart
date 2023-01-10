@@ -1,3 +1,5 @@
+final String myTodoTableName = 'myTodoTable';
+
 class TodoModel {
   final int? id;
   final String title;
@@ -11,7 +13,12 @@ class TodoModel {
       required this.time});
 
   Map<String, dynamic> toMap() {
-    return {'id': id, 'title': title, 'description': description, 'time': time};
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'time': time.toIso8601String()
+    };
   }
 
   factory TodoModel.fromMap(Map<String, dynamic> json) {
