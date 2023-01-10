@@ -3,16 +3,22 @@ import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/database_service.dart';
 import 'package:todo_app/widget/container_color.dart';
 
-class DetailTask extends StatelessWidget {
+class DetailTask extends StatefulWidget {
   const DetailTask({Key? key}) : super(key: key);
 
+  @override
+  State<DetailTask> createState() => _DetailTaskState();
+}
+
+class _DetailTaskState extends State<DetailTask> {
   @override
   Widget build(BuildContext context) {
     final routeArgs =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
-    final titleArgs = routeArgs['title'].toString();
-    final descriptionArgs = routeArgs['description'].toString();
-    final timeArgs = routeArgs['time'].toString();
+    final idArgs = routeArgs['id'].toString();
+    String titleArgs = routeArgs['title'].toString();
+    String descriptionArgs = routeArgs['description'].toString();
+    String timeArgs = routeArgs['time'].toString();
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -77,8 +83,12 @@ class DetailTask extends StatelessWidget {
           width: width * 0.9,
           height: height * 0.058,
           child: ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, '/delete');
+            onPressed: () async {
+              // DatabaseService.instance.delete(int.parse(idArgs));
+              // titleArgs = '';
+              // timeArgs = '';
+              // descriptionArgs = '';
+              // setState(() {});
             },
             style: ElevatedButton.styleFrom(
                 primary: const Color(0xFFAA1945),

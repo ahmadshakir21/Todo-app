@@ -1,6 +1,8 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/database_service.dart';
@@ -63,23 +65,46 @@ class _HomeScreenState extends State<HomeScreen> {
                           //TODO: change this text to image
                           child: Text("No Todo in List"),
                         )
-                      : ListView(
-                          children: snapshot.data!
-                              .map((t) => ContainerColor(
-                                  title: t.title,
-                                  description: t.description,
-                                  time: DateFormat.yMMMd().format(t.time),
-                                  color: colors[indexColor],
-                                  onTap: () {
-                                    Navigator.pushNamed(context, '/detail',
-                                        arguments: {
-                                          'title': t.title,
-                                          'description': t.description,
-                                          'time': DateFormat.yMMMMEEEEd()
-                                              .format(t.time),
-                                        });
-                                  }))
-                              .toList());
+                      : ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            dynamic j = snapshot.data![index];
+                            return ContainerColor(
+                              title: j.title,
+                              description: j.description,
+                              time: DateFormat.yMMMd().format(j.time),
+                              color: colors[indexColor],
+                              onTap: () {
+                                Navigator.pushNamed(context, '/detail',
+                                    arguments: {
+                                      'id': j.id,
+                                      'title': j.title,
+                                      'description': j.description,
+                                      'time': DateFormat.yMMMMEEEEd()
+                                          .format(j.time),
+                                    });
+                              },
+                            );
+                          },
+                        );
+                  // ListView(
+                  //     children: snapshot.data!
+                  //         .map((t) => ContainerColor(
+                  //             title: t.title,
+                  //             description: t.description,
+                  //             time: DateFormat.yMMMd().format(t.time),
+                  //             color: colors[indexColor],
+                  //             onTap: () {
+                  //               Navigator.pushNamed(context, '/detail',
+                  //                   arguments: {
+                  //                     'id': t.id,
+                  //                     'title': t.title,
+                  //                     'description': t.description,
+                  //                     'time': DateFormat.yMMMMEEEEd()
+                  //                         .format(t.time),
+                  //                   });
+                  //             }))
+                  //         .toList());
                 },
               ),
             ),
