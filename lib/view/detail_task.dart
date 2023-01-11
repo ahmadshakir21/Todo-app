@@ -58,89 +58,103 @@ class _DetailTaskState extends State<DetailTask> {
                 ),
               ),
               SizedBox(
-                height: height * 0.04,
+                height: height * 0.02,
               ),
-              Text(
-                titleArgs,
-                style: Theme.of(context).textTheme.headline2,
+              Container(
+                height: height * 0.75,
+                child: ListView(
+                  children: [
+                    Text(
+                      titleArgs,
+                      style: Theme.of(context).textTheme.headline2,
+                    ),
+                    SizedBox(
+                      height: height * 0.01,
+                    ),
+                    Text(
+                      timeArgs,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                    SizedBox(
+                      height: height * 0.05,
+                    ),
+                    Text(
+                      descriptionArgs,
+                      style: Theme.of(context).textTheme.headline3,
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
-                height: height * 0.01,
+                height: height * 0.015,
               ),
-              Text(
-                timeArgs,
-                style: Theme.of(context).textTheme.bodySmall,
+              Container(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Container(
+                      width: width * 0.45,
+                      height: height * 0.058,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          DatabaseService.instance.delete(int.parse(idArgs));
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/delete', (route) => false);
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: const Color(0xFFAA1945),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(9))),
+                        child: Text(
+                          "DELETE",
+                          style: Theme.of(context).textTheme.button,
+                        ),
+                      ),
+                    ),
+                    ////////////////////////////////////////////////////////
+                    Container(
+                      width: width * 0.45,
+                      height: height * 0.058,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //TODO: passing data from this below route
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) {
+                              return UpdateTask(
+                                todoModel: TodoModel(
+                                    id: int.parse(idArgs),
+                                    title: titleArgs,
+                                    description: descriptionArgs,
+                                    time: DateTime.now()),
+                              );
+                            },
+                          ));
+                          // Navigator.of(context).pushNamed('/edit', arguments: {
+                          //   'id': idArgs,
+                          //   'title': titleArgs,
+                          //   'description': descriptionArgs,
+                          //   'time': timeArgs
+                          // });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            primary: const Color(0xFF04809C),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(9))),
+                        child: Text(
+                          "UPDATE",
+                          style: Theme.of(context).textTheme.button,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(
-                height: height * 0.05,
-              ),
-              Text(
-                descriptionArgs,
-                style: Theme.of(context).textTheme.headline3,
+                height: height * 0.015,
               ),
             ],
           ),
         ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              width: width * 0.45,
-              height: height * 0.058,
-              child: ElevatedButton(
-                onPressed: () {
-                  DatabaseService.instance.delete(int.parse(idArgs));
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil('/delete', (route) => false);
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFFAA1945),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9))),
-                child: Text(
-                  "DELETE",
-                  style: Theme.of(context).textTheme.button,
-                ),
-              ),
-            ),
-            ////////////////////////////////////////////////////////
-            Container(
-              width: width * 0.45,
-              height: height * 0.058,
-              child: ElevatedButton(
-                onPressed: () {
-                  //TODO: passing data from this below route
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) {
-                      return UpdateTask(
-                        todoModel: TodoModel(
-                            id: int.parse(idArgs),
-                            title: titleArgs,
-                            description: descriptionArgs,
-                            time: DateTime.now()),
-                      );
-                    },
-                  ));
-                  // Navigator.of(context).pushNamed('/edit', arguments: {
-                  //   'id': idArgs,
-                  //   'title': titleArgs,
-                  //   'description': descriptionArgs,
-                  //   'time': timeArgs
-                  // });
-                },
-                style: ElevatedButton.styleFrom(
-                    primary: const Color(0xFF04809C),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(9))),
-                child: Text(
-                  "UPDATE",
-                  style: Theme.of(context).textTheme.button,
-                ),
-              ),
-            ),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }

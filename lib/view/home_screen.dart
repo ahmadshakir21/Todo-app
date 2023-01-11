@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: height * 0.0099,
             ),
             Container(
-              height: height * 0.8,
+              height: height * 0.85,
               child: FutureBuilder<List<TodoModel>>(
                   future: DatabaseService.instance.getTodo(),
                   builder: (BuildContext context,
