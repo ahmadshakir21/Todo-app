@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/database_service.dart';
+import 'package:todo_app/view/update_task.dart';
 import 'package:todo_app/widget/container_color.dart';
 
 class DetailTask extends StatefulWidget {
@@ -31,7 +33,7 @@ class _DetailTaskState extends State<DetailTask> {
               Center(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 5),
                   child: Row(
                     children: [
                       IconButton(
@@ -45,7 +47,7 @@ class _DetailTaskState extends State<DetailTask> {
                         ),
                       ),
                       SizedBox(
-                        width: width * 0.2,
+                        width: width * 0.17,
                       ),
                       Text(
                         "Detail Task",
@@ -79,26 +81,64 @@ class _DetailTaskState extends State<DetailTask> {
             ],
           ),
         ),
-        floatingActionButton: Container(
-          width: width * 0.9,
-          height: height * 0.058,
-          child: ElevatedButton(
-            onPressed: () async {
-              // DatabaseService.instance.delete(int.parse(idArgs));
-              // titleArgs = '';
-              // timeArgs = '';
-              // descriptionArgs = '';
-              // setState(() {});
-            },
-            style: ElevatedButton.styleFrom(
-                primary: const Color(0xFFAA1945),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(9))),
-            child: Text(
-              "DELETE",
-              style: Theme.of(context).textTheme.button,
+        floatingActionButton: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              width: width * 0.45,
+              height: height * 0.058,
+              child: ElevatedButton(
+                onPressed: () {
+                  DatabaseService.instance.delete(int.parse(idArgs));
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/delete', (route) => false);
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFFAA1945),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9))),
+                child: Text(
+                  "DELETE",
+                  style: Theme.of(context).textTheme.button,
+                ),
+              ),
             ),
-          ),
+            ////////////////////////////////////////////////////////
+            Container(
+              width: width * 0.45,
+              height: height * 0.058,
+              child: ElevatedButton(
+                onPressed: () {
+                  //TODO: passing data from this below route
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return UpdateTask(
+                        todoModel: TodoModel(
+                            id: int.parse(idArgs),
+                            title: titleArgs,
+                            description: descriptionArgs,
+                            time: DateTime.now()),
+                      );
+                    },
+                  ));
+                  // Navigator.of(context).pushNamed('/edit', arguments: {
+                  //   'id': idArgs,
+                  //   'title': titleArgs,
+                  //   'description': descriptionArgs,
+                  //   'time': timeArgs
+                  // });
+                },
+                style: ElevatedButton.styleFrom(
+                    primary: const Color(0xFF04809C),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(9))),
+                child: Text(
+                  "UPDATE",
+                  style: Theme.of(context).textTheme.button,
+                ),
+              ),
+            ),
+          ],
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),

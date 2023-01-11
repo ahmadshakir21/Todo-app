@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/addTask': (context) => const AddTask(),
         '/detail': (context) => const DetailTask(),
-        '/edit': (context) => const UpdateTask(),
+        // '/edit': (context) => const UpdateTask(),
         '/done': (context) => const HomeScreen(),
         '/delete': (context) => const HomeScreen(),
         '/update': (context) => const HomeScreen(),
@@ -28,25 +28,25 @@ class MyApp extends StatelessWidget {
           fontFamily: GoogleFonts.inter().fontFamily,
           textTheme: const TextTheme(
               headline1: TextStyle(
-                fontSize: 25,
+                fontSize: 22,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 1,
                 color: Color(0xFF302D52),
               ),
               headline2: TextStyle(
-                  fontSize: 20,
-                  letterSpacing: 1,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF302D52)),
-              headline3: TextStyle(
                   fontSize: 16,
                   letterSpacing: 1,
                   fontWeight: FontWeight.bold,
                   color: Color(0xFF302D52)),
+              headline3: TextStyle(
+                  fontSize: 14,
+                  letterSpacing: 1,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF302D52)),
               headline6: TextStyle(
-                  fontSize: 14, letterSpacing: 1, color: Color(0xFF767676)),
+                  fontSize: 12, letterSpacing: 1, color: Color(0xFF767676)),
               button: TextStyle(
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
                   color: Color(0xFFFDDEA5)))),

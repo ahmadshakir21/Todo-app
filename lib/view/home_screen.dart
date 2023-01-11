@@ -49,64 +49,65 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               height: height * 0.8,
               child: FutureBuilder<List<TodoModel>>(
-                future: DatabaseService.instance.getTodo(),
-                builder: (BuildContext context,
-                    AsyncSnapshot<List<TodoModel>> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: Text(
-                        "No Data",
-                        style: Theme.of(context).textTheme.headline3,
-                      ),
-                    );
-                  }
-                  return snapshot.data!.isEmpty
-                      ? const Center(
-                          //TODO: change this text to image
-                          child: Text("No Todo in List"),
-                        )
-                      : ListView.builder(
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            dynamic j = snapshot.data![index];
-                            return ContainerColor(
-                              title: j.title,
-                              description: j.description,
-                              time: DateFormat.yMMMd().format(j.time),
-                              color: colors[indexColor],
-                              onTap: () {
-                                Navigator.pushNamed(context, '/detail',
-                                    arguments: {
-                                      'id': j.id,
-                                      'title': j.title,
-                                      'description': j.description,
-                                      'time': DateFormat.yMMMMEEEEd()
-                                          .format(j.time),
-                                    });
-                              },
-                            );
-                          },
-                        );
-                  // ListView(
-                  //     children: snapshot.data!
-                  //         .map((t) => ContainerColor(
-                  //             title: t.title,
-                  //             description: t.description,
-                  //             time: DateFormat.yMMMd().format(t.time),
-                  //             color: colors[indexColor],
-                  //             onTap: () {
-                  //               Navigator.pushNamed(context, '/detail',
-                  //                   arguments: {
-                  //                     'id': t.id,
-                  //                     'title': t.title,
-                  //                     'description': t.description,
-                  //                     'time': DateFormat.yMMMMEEEEd()
-                  //                         .format(t.time),
-                  //                   });
-                  //             }))
-                  //         .toList());
-                },
-              ),
+                  future: DatabaseService.instance.getTodo(),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<List<TodoModel>> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: Text(
+                          "No Data",
+                          style: Theme.of(context).textTheme.headline3,
+                        ),
+                      );
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return const Center(
+                        child:
+                            CircularProgressIndicator(color: Color(0xFF302D52)),
+                      );
+                    } else if (snapshot.hasError) {
+                      return Center(
+                        child: Text(
+                          snapshot.error.toString(),
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline3!
+                              .copyWith(color: const Color(0xFFAA1945)),
+                        ),
+                      );
+                    } else if (snapshot.hasData) {
+                      if (snapshot.data != null) {
+                        return snapshot.data!.isEmpty
+                            ? const Center(
+                                //TODO: change this text to image
+                                child: Text("No Todo in List"),
+                              )
+                            : ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  dynamic j = snapshot.data![index];
+                                  return ContainerColor(
+                                    title: j.title,
+                                    description: j.description,
+                                    time: DateFormat.yMMMd().format(j.time),
+                                    color: colors[indexColor],
+                                    onTap: () {
+                                      Navigator.pushNamed(context, '/detail',
+                                          arguments: {
+                                            'id': j.id,
+                                            'title': j.title,
+                                            'description': j.description,
+                                            'time': DateFormat.yMMMMEEEEd()
+                                                .format(j.time),
+                                          });
+                                    },
+                                  );
+                                },
+                              );
+                      }
+                    }
+                    return const Text("");
+                  }),
             ),
             SizedBox(
               height: height * 0.01,

@@ -34,7 +34,7 @@ class ContainerColor extends StatelessWidget {
           ),
           Text(
             time,
-            style: Theme.of(context).textTheme.bodySmall,
+            style: Theme.of(context).textTheme.headline6,
           ),
           const SizedBox(
             height: 20,

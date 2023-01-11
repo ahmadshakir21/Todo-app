@@ -1,21 +1,41 @@
 import 'package:flutter/material.dart';
+// import 'package:intl/intl.dart';
+import 'package:todo_app/model/todo_model.dart';
+import 'package:todo_app/service/database_service.dart';
 
 class UpdateTask extends StatefulWidget {
-  const UpdateTask({Key? key}) : super(key: key);
+  const UpdateTask({Key? key, required this.todoModel}) : super(key: key);
+
+  final TodoModel todoModel;
 
   @override
   State<UpdateTask> createState() => _UpdateTaskState();
 }
 
 class _UpdateTaskState extends State<UpdateTask> {
-  final TextEditingController taskTitleController = TextEditingController();
-  final TextEditingController taskDiscriptionController =
-      TextEditingController();
+  TextEditingController? taskTitleController;
+  TextEditingController? taskDiscriptionController;
+
+  String? title;
+  String? description;
+  DateTime? time;
+
+  @override
+  void initState() {
+    taskTitleController = TextEditingController(text: widget.todoModel.title);
+    taskDiscriptionController =
+        TextEditingController(text: widget.todoModel.description);
+    super.initState();
+  }
+
+  updateTask(TodoModel todoModel) async {
+    await DatabaseService.instance.update(todoModel);
+  }
 
   @override
   void dispose() {
-    taskTitleController.dispose();
-    taskDiscriptionController.dispose();
+    taskTitleController!.dispose();
+    taskDiscriptionController!.dispose();
     super.dispose();
   }
 
@@ -36,6 +56,17 @@ class _UpdateTaskState extends State<UpdateTask> {
 
   @override
   Widget build(BuildContext context) {
+    // final routeArgs =
+    //     ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>;
+    // final idArgs = routeArgs['id'].toString();
+    // String titleArgs = routeArgs['title'].toString();
+    // String descriptionArgs = routeArgs['description'].toString();
+    // String timeArgs = routeArgs['time'].toString();
+
+    // title = titleArgs;
+    // description = descriptionArgs;
+    // time = DateTime.parse(timeArgs);
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
@@ -61,7 +92,7 @@ class _UpdateTaskState extends State<UpdateTask> {
                         ),
                       ),
                       SizedBox(
-                        width: width * 0.2,
+                        width: width * 0.155,
                       ),
                       Text(
                         "Update Task",
@@ -78,7 +109,7 @@ class _UpdateTaskState extends State<UpdateTask> {
                   width: width * 0.9,
                   child: TextField(
                       controller: taskTitleController,
-                      maxLength: 30,
+                      // maxLength: 30,
                       decoration: InputDecoration(
                         hintText: "Title",
                         border: myInputBorder(),
@@ -107,14 +138,27 @@ class _UpdateTaskState extends State<UpdateTask> {
                 height: height * 0.058,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, '/update');
+                    setState(() {
+                      title = taskTitleController!.text;
+                      description = taskDiscriptionController!.text;
+                      time = DateTime.now();
+                    });
+                    TodoModel todoModel = TodoModel(
+                        id: widget.todoModel.id,
+                        title: title!,
+                        description: description!,
+                        time: DateTime.now());
+                    updateTask(todoModel);
+
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil('/update', (route) => false);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: const Color(0xFF04809C),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(9))),
                   child: Text(
-                    "UPDATE",
+                    "SAVE",
                     style: Theme.of(context).textTheme.button,
                   ),
                 ),

@@ -14,6 +14,14 @@ class _AddTaskState extends State<AddTask> {
   final TextEditingController taskDiscriptionController =
       TextEditingController();
 
+  String? title;
+  String? description;
+  DateTime? time;
+
+  addNote(TodoModel todoModel) async {
+    await DatabaseService.instance.insertTodo(todoModel);
+  }
+
   @override
   void dispose() {
     taskTitleController.dispose();
@@ -117,12 +125,18 @@ class _AddTaskState extends State<AddTask> {
                 width: width * 0.9,
                 height: height * 0.058,
                 child: ElevatedButton(
-                  onPressed: () async {
-                    await DatabaseService.instance.insertTodo(TodoModel(
-                        title: taskTitleController.text.trim(),
-                        description: taskDiscriptionController.text.trim(),
-                        time: DateTime.now()));
-                    // Navigator.pushNamed(context, '/done');
+                  onPressed: () {
+                    setState(() {
+                      title = taskTitleController.text;
+                      description = taskDiscriptionController.text;
+                      time = DateTime.now();
+                    });
+                    TodoModel todoModel = TodoModel(
+                        title: title!, description: description!, time: time!);
+
+                    addNote(todoModel);
+                    Navigator.of(context)
+                        .pushNamedAndRemoveUntil("/done", (route) => false);
                   },
                   style: ElevatedButton.styleFrom(
                       primary: const Color(0xFF302D52),
