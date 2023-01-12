@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -24,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Random random = Random();
 
-  int indexColor = 0;
+  int indexColor = 3;
 
   void changeIndexColor() {
     setState(() {
