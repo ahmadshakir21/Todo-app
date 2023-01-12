@@ -2,7 +2,6 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/model/todo_model.dart';
 import 'package:todo_app/service/database_service.dart';
@@ -47,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: height * 0.0099,
             ),
             Container(
-              height: height * 0.85,
+              height: height * 0.8,
               child: FutureBuilder<List<TodoModel>>(
                   future: DatabaseService.instance.getTodo(),
                   builder: (BuildContext context,

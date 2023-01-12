@@ -61,7 +61,7 @@ class _DetailTaskState extends State<DetailTask> {
                 height: height * 0.02,
               ),
               Container(
-                height: height * 0.75,
+                height: height * 0.71,
                 child: ListView(
                   children: [
                     Text(
